@@ -1,0 +1,288 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<main>
+    <div class="container-fluid px-4">
+        <h4 class="mt-1">Danh sách người dùng</h4>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                @if (ViewBag.Msg != null)
+                {
+                    if (ViewBag.Msg == "1")
+                    {
+                        <div class="alert alert-success">
+                            <strong>Thành công</strong>
+                        </div>
+                    }
+                    if (ViewBag.Msg == "2")
+                    {
+                        <div class="alert alert-danger">
+                            <strong>Không thể xóa!</strong>
+                        </div>
+                    }
+                }
+                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#exampleModalAdd">
+                    Thêm mới
+                </button>
+            </div>
+
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead style="color:#0d6efd ">
+                        <tr style="background-color: darkgrey">
+                            <th>STT</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Tài khoản<h>
+                            <th>Mật khẩu<h>
+                            <th>Địa chỉ</th>
+                            <th>Quyền</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @{ var stt = 1;}
+                        @foreach (var item in ViewBag.List)
+                        {
+                        <tr>
+                            <td style="width:10px">@stt</td>
+                            <td>
+                                @item.hoTen
+                            </td>
+                            <td>
+                                @item.email
+                            </td>
+                            <td>
+                                @item.soDienThoai
+                            </td>
+                            <td>
+                                @item.taiKhoan
+                            </td>
+                            <td>
+                                @item.matKhau
+                            </td>
+                            <td>
+                                @item.diaChi
+                            </td>
+                            <td>
+                                @item.Quyen.tenQuyen
+                            </td>
+                            <td>
+                                @{
+                                    var idEx1 = "exampleModalLabel" + item.idNguoiDung;
+                                    var idModelDel = "exampleModalDel" + item.idNguoiDung;
+                                }
+                                @if (item.idQuyen == 2)
+                                {
+                                    <button style="width:100px" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#@idEx1">
+                                        Sửa
+                                    </button>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#@idModelDel" style="width:100px" class="btn btn-danger"> Xóa</button>
+                                }
+                            </td>
+                            <div class="modal fade" id="@idModelDel" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắn muốn xóa ?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            Nhân viên : @item.hoTen
+                                            <form action="/NguoiDung/Delete" method="post">
+                                                <input type="hidden" class="form-control" id="id" name="idNguoiDung" value="@item.idNguoiDung">
+                                                <div class="modal-footer" style="margin-top: 20px">
+                                                    <button style="width:100px" type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                        Đóng
+                                                    </button>
+                                                    <button style="width:100px" type="submit" class="btn btn-danger"> Xóa</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal Update-->
+                            <div class="modal fade" id="@idEx1" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Sửa</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="POST" action="/NguoiDung/Update" class="register-form" id="register-form" enctype="multipart/form-data">
+                                                <input type="hidden" class="form-control" id="id" name="idNguoiDung" value="@item.idNguoiDung">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col-6 mb-3">
+                                                            <label for="category-film"
+                                                                   class="col-form-label">Họ tên:</label>
+                                                            <input type="text" class="form-control" id="category-film" name="hoTen" required value="@item.hoTen">
+                                                        </div>
+                                                        <div class="col-6 mb-3">
+                                                            <label for="category-film"
+                                                                   class="col-form-label">Email:</label>
+                                                            <input type="email" class="form-control" id="category-film" name="email" required value="@item.email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-3">
+                                                            <label for="category-film"
+                                                                   class="col-form-label">Quyền:</label>
+                                                            <select class="form-select" aria-label="Default select example" id="theloai" tabindex="8" name="idQuyen" required>
+                                                                @if (item.idQuyen == 1)
+                                                                {
+                                                                    <option selected value="1">Quản lý</option>
+                                                                    <option value="2">Nhân viên</option>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <option value="1">Quản lý</option>
+                                                                    <option selected value="2">Nhân viên</option>
+                                                                }
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-6 mb-3">
+                                                            <label for="category-film"
+                                                                   class="col-form-label">Số điện thoại:</label>
+                                                            <input type="number" class="form-control" id="category-film" name="soDienThoai" required value="@item.soDienThoai">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-3">
+                                                            <label for="category-film"
+                                                                   class="col-form-label">Tài khoản:</label>
+                                                            <input type="text" class="form-control" id="category-film" name="taiKhoan" readonly value="@item.taiKhoan">
+                                                        </div>
+                                                        <div class="col-6 mb-3">
+                                                            <label for="category-film"
+                                                                   class="col-form-label">Mật khẩu:</label>
+                                                            <input type="text" class="form-control" id="category-film" name="matKhau" required value="@item.matKhau">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 mb-3">
+                                                            <label for="category-film"
+                                                                   class="col-form-label">Địa chỉ:</label>
+                                                            <input type="text" class="form-control" id="category-film" name="diaChi" required value="@item.diaChi">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">
+                                                        Đóng
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </tr>
+                            stt++;
+                        }
+                        <div class="modal fade" id="exampleModalAdd" tabindex="-1"
+                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Thêm mới</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="/NguoiDung/Add" class="register-form" id="register-form" enctype="multipart/form-data">
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col-6 mb-3">
+                                                        <label for="category-film"
+                                                               class="col-form-label">Họ tên:</label>
+                                                        <input type="text" class="form-control" id="category-film" name="hoTen" required>
+                                                    </div>
+                                                    <div class="col-6 mb-3">
+                                                        <label for="category-film"
+                                                               class="col-form-label">Email:</label>
+                                                        <input type="email" class="form-control" id="category-film" name="email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6 mb-3">
+                                                        <label for="category-film"
+                                                               class="col-form-label">Quyền:</label>
+                                                        <select class="form-select" aria-label="Default select example" id="theloai" tabindex="8" name="idQuyen" required>
+                                                            <option value="" selected>Chọn quyền</option>
+                                                            <option value="1">Quản lý</option>
+                                                            <option value="2">Nhân viên</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6 mb-3">
+                                                        <label for="category-film"
+                                                               class="col-form-label">Số điện thoại:</label>
+                                                        <input type="number" class="form-control" id="category-film" name="soDienThoai" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6 mb-3">
+                                                        <label for="category-film"
+                                                               class="col-form-label">Tài khoản:</label>
+                                                        <input type="text" class="form-control" id="category-film" name="taiKhoan" required>
+                                                    </div>
+                                                    <div class="col-6 mb-3">
+                                                        <label for="category-film"
+                                                               class="col-form-label">Mật khẩu:</label>
+                                                        <input type="text" class="form-control" id="category-film" name="matKhau" required>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 mb-3">
+                                                        <label for="category-film"
+                                                               class="col-form-label">Địa chỉ:</label>
+                                                        <input type="text" class="form-control" id="category-film" name="diaChi" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
+                                                    Đóng
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Lưu </button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+

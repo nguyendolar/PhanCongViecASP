@@ -1,0 +1,37 @@
+﻿
+<div id="layoutSidenav_nav">
+     @{ var userInfomatiom = (PhanCongViec.Models.NguoiDung)Session["ADMIN"]; }
+    <nav style="background-color: #CCCCCC !important" class="sb-sidenav accordion " id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+
+                @if (userInfomatiom.idQuyen == 1)
+                {
+                    <a class="nav-link collapsed" href="/NguoiDung/Index">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Quản lý người dùng
+                    </a>
+                    <a class="nav-link collapsed" href="/CongViec/Index">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Quản lý công việc
+                    </a>
+                    <a class="nav-link collapsed" href="/PhanCong/Index">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Phân công công việc
+                    </a>
+                }
+                else
+                {
+                    <a class="nav-link collapsed" href="/NguoiDung/CongViecPC">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Công việc được giao
+                    </a>
+                }
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+
+
