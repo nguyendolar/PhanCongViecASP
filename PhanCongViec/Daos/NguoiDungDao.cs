@@ -27,6 +27,11 @@ namespace PhanCongViec.Daos
             return myDb.NguoiDungs.ToList();
         }
 
+        public List<NguoiDung> getNguoiDung()
+        {
+            return myDb.NguoiDungs.Where(x => x.idQuyen == 2).ToList();
+        }
+
         public void Add(NguoiDung user)
         {
             myDb.NguoiDungs.Add(user);

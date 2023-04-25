@@ -18,8 +18,9 @@ namespace PhanCongViec.Controllers.Admin
             return View();
         }
 
-        public ActionResult CongViecPC()
+        public ActionResult CongViecPC(string msg)
         {
+            ViewBag.Msg = msg;
             var userInfomatiom = (NguoiDung)Session["ADMIN"];
             ViewBag.List = nguoidungDao.getPhanCongByND(userInfomatiom.idNguoiDung);
             return View();
